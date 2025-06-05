@@ -1,15 +1,14 @@
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+#without using parser
+from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
 
-llm = HuggingFaceEndpoint(
-    repo_id="google/gemma-2-2b-it",
+model = ChatOllama(
+    model="tinydolphin",
     task="text-generation"
 )
-
-model = ChatHuggingFace(llm=llm)
 
 # 1st prompt -> detailed report
 template1 = PromptTemplate(
@@ -32,4 +31,3 @@ prompt2 = template2.invoke({'text':result.content})
 result1 = model.invoke(prompt2)
 
 print(result1.content)
-

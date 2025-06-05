@@ -1,4 +1,5 @@
-from langchain_openai import ChatOpenAI
+#with using parser - used chain
+from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -6,7 +7,10 @@ from langchain_core.output_parsers import StrOutputParser
 load_dotenv()
 
 
-model = ChatOpenAI()
+model = ChatOllama(
+    model="tinydolphin",
+    task="text-generation"
+)
 
 # 1st prompt -> detailed report
 template1 = PromptTemplate(
@@ -22,7 +26,7 @@ template2 = PromptTemplate(
 
 parser = StrOutputParser()
 
-chain = template1 | model | parser | template2 | model | parser
+chain = template1 | model | parser | template2 | model | parser #chain most important line this can talk multiple times to llm with previous output
 
 result = chain.invoke({'topic':'black hole'})
 
